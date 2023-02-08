@@ -1,0 +1,20 @@
+{
+  "projects": {
+    "default": "boxtout-d20da"
+  },
+  "targets": {
+    "boxtout-d20da": {
+      "hosting": {
+        "crossupfirebase": [
+          "crossupfirebase",
+          "hosting",
+          "target:apply"
+        ],
+        "crossup": [
+          "crossup"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
