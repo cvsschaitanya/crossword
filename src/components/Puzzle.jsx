@@ -1,42 +1,74 @@
-import { useState } from "react";
-
 export default function Puzzle(props) {
-	const [structure, setStructure] = useState({
-		rowCount: 12,
-		colCount: 12,
-		blocked: [2, 14, 25, 46, 55, 79, 109],
-		marked: [12, 24, 35, 66, 75, 90, 99, 119],
-	});
+    const structure = props.structure;
+    const setStructure = props.setStructure;
 
-	let index = 1;
+    const flip = (index) => {
+        if (structure.blocked.includes(index)) {
+            setStructure({
+                ...structure,
+                blocked: structure.blocked.filter((ele) => ele != index),
+                marked: [...structure.marked, index],
+            })
+        }
+        else if (structure.marked.includes(index)) {
+            setStructure({
+                ...structure,
+                marked: structure.marked.filter((ele) => ele != index),
+            })
+        }
+        else {
+            setStructure({
+                ...structure,
+                blocked: [...structure.blocked, index],
+            })
+        }
+    }
 
-	const getIndex = (i,j) => i * structure.colCount + j;
+    let countIndex = 1
 
-    const getCell = (i, j)=>{
-		return <div className={`cell${structure.blocked.includes(getIndex(i,j)) ? " blockedCell" : ""}`}>
-			<strong>
-				{structure.marked.includes(getIndex(i,j)) ? index++ : ""}
-			</strong>
-		</div>
-	}
+    const getIndex = (i, j) => i * structure.colCount + j
+
+    const getCell = (i, j) => {
+        return (
+            <div
+                className={
+                    [
+                        'cell',
+                        ...(structure.blocked.includes(getIndex(i, j)) ? ['blockedCell'] : [])
+                    ].join(' ')
+                }
+                onClick={
+                    props.editMode
+                        ? () => flip(getIndex(i, j))
+                        : () => { }
+                }
+            >
+                <strong>
+                    {structure.marked.includes(getIndex(i, j))
+                        ? (
+                            props.editMode ? '*' : countIndex++
+                        )
+                        : ''}
+                </strong>
+            </div>
+        )
+    }
 
     return (
-	<table>
-		<tbody>
-			{
-				[...Array(structure.rowCount).keys()].map((i)=>{
-					return <tr>
-						{
-							[...Array(structure.colCount).keys()].map((j)=>{
-								return <td>
-									{getCell(i,j)}
-								</td>
-							})
-						}
-					</tr>
-				})
-			}
-		</tbody>
-	</table>
+        <div>
+            <table className={`${props.editMode ? 'edit' : 'view'}Table`}>
+                <tbody>
+                    {[...Array(structure.rowCount).keys()].map(i => {
+                        return (
+                            <tr key={i}>
+                                {[...Array(structure.colCount).keys()].map(j => {
+                                    return <td key={j}>{getCell(i, j)}</td>
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        </div>
     )
 }
