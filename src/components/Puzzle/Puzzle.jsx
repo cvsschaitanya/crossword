@@ -1,3 +1,5 @@
+import './Puzzle.css'
+
 export default function Puzzle(props) {
     const structure = props.structure;
     const setStructure = props.setStructure;
@@ -6,14 +8,14 @@ export default function Puzzle(props) {
         if (structure.blocked.includes(index)) {
             setStructure({
                 ...structure,
-                blocked: structure.blocked.filter((ele) => ele != index),
+                blocked: structure.blocked.filter((ele) => ele !== index),
                 marked: [...structure.marked, index],
             })
         }
         else if (structure.marked.includes(index)) {
             setStructure({
                 ...structure,
-                marked: structure.marked.filter((ele) => ele != index),
+                marked: structure.marked.filter((ele) => ele !== index),
             })
         }
         else {
@@ -46,7 +48,7 @@ export default function Puzzle(props) {
                 <strong>
                     {structure.marked.includes(getIndex(i, j))
                         ? (
-                            props.editMode ? '*' : countIndex++
+                            countIndex++
                         )
                         : ''}
                 </strong>
@@ -55,20 +57,18 @@ export default function Puzzle(props) {
     }
 
     return (
-        <div>
-            <table className={`${props.editMode ? 'edit' : 'view'}Table`}>
-                <tbody>
-                    {[...Array(structure.rowCount).keys()].map(i => {
-                        return (
-                            <tr key={i}>
-                                {[...Array(structure.colCount).keys()].map(j => {
-                                    return <td key={j}>{getCell(i, j)}</td>
-                                })}
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
-        </div>
+        <table id="Puzzle" className={`${props.editMode ? 'edit' : 'view'}Table`}>
+            <tbody>
+                {[...Array(structure.rowCount).keys()].map(i => {
+                    return (
+                        <tr key={i}>
+                            {[...Array(structure.colCount).keys()].map(j => {
+                                return <td key={j}>{getCell(i, j)}</td>
+                            })}
+                        </tr>
+                    )
+                })}
+            </tbody>
+        </table>
     )
 }

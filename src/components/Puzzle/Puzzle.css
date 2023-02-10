@@ -1,0 +1,36 @@
+table {
+    margin: auto;
+}
+
+table,
+td {
+    padding: 0;
+}
+
+.viewTable,
+.viewTable td {
+    border: 1px solid var(--theme-color);
+    border-collapse: collapse;
+}
+
+.cell {
+    width: var(--dim);
+    height: var(--dim);
+    user-select: none;
+}
+
+.viewTable .cell {
+    font-size: 1ex;
+    text-align: left;
+}
+
+.editTable .cell {
+    border: 1px solid var(--theme-color);
+    border-radius: 50%;
+    font-size: large;
+    text-align: center;
+}
+
+.blockedCell {
+    background: var(--theme-color);
+}

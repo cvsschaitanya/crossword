@@ -1,21 +1,43 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import './firebaseInit';
+import { getStorage, ref as getStorageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDatabase, ref as getDbRef, set } from "firebase/database";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyABxBsVitG6XX09tv1v3PfH-gCd6PGgP6w",
-  authDomain: "boxtout-d20da.firebaseapp.com",
-  projectId: "boxtout-d20da",
-  storageBucket: "boxtout-d20da.appspot.com",
-  messagingSenderId: "555371498202",
-  appId: "1:555371498202:web:e426dbf57aa3cdc78633e3",
-  measurementId: "G-JH21YEMXGJ"
+const storageService = getStorage();
+
+const upLoadFile = (userId, file, callback = () => { }) => {
+    return new Promise((resolve, reject) => {
+        const now = Date.now();
+        let ext;
+        if (file && file.type && file.type.includes('/')) {
+            const spl = file.type.split('/');
+            ext = spl[spl.length - 1];
+        }
+        else
+            ext = 'png';
+        
+        const storageRef = getStorageRef(storageService, `user/${userId}/images/${now}.${ext}`);
+        uploadBytes(storageRef, file).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+            resolve([now, storageRef]);
+        }).catch((err)=>{
+            reject(err);
+        });
+    });
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const getUrl = (storageRef)=> getDownloadURL(storageRef);
+
+
+const registerPuzzle = (userId, name, structure) => {
+    const db = getDatabase();
+    set(
+        getDbRef(db, `users/${userId}/puzzles/${name}/`), 
+        structure
+    );
+}
+
+export default {
+    upLoadFile,
+    getUrl,
+    registerPuzzle,
+};

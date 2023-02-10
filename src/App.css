@@ -1,34 +1,4 @@
 :root {
-    --dim: 40px;
+    /* --dim: 40px; */
     --theme-color: rgb(77, 174, 207);
-}
-
-.table, td {
-    padding: 0;
-}
-
-.viewTable, .viewTable td {
-    border: 1px solid var(--theme-color);
-    border-collapse: collapse;
-}
-
-.cell {
-    width: var(--dim);
-    height: var(--dim);
-    font-size: 1ex;
-}
-
-.editTable .cell {
-    border: 1px solid var(--theme-color);
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-}
-
-.cell button {
-    margin: auto;
-}
-
-.blockedCell {
-    background: var(--theme-color);
 }

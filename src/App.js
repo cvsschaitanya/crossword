@@ -1,10 +1,10 @@
 import './App.css';
-import PuzzleBox from './components/PuzzleBox'
+import Router from './components/Router'
 
 function App() {
-  return (
-    <PuzzleBox />
-  );
+    return (
+        <Router />
+    );
 }
 
 export default App;
